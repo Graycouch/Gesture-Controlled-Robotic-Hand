@@ -1,6 +1,3 @@
-# Simple Leap motion program to track the position of your hand
-# import the libraries where the LeapMotionSDK is
-
 import sys
 
 sys.path.insert(0, "../lib")
@@ -25,7 +22,7 @@ class SampleListener(Leap.Listener):
     def on_init(self, controller):
         self.a = Arduino()
 
-        # sleep to ensure ample time for computer to make serial connection
+        # sleep to ensure enough time for the computer to make serial connection
         time.sleep(3)
 
         # Define Pins for Arduino Servos
@@ -35,7 +32,7 @@ class SampleListener(Leap.Listener):
         self.PIN9 = 9  # Index
         self.PIN10 = 10  # Thumb
 
-        # allow time to make connection
+        # make sure there is enough time to make a connection
         time.sleep(1)
 
         print "Initialized"
@@ -44,7 +41,6 @@ class SampleListener(Leap.Listener):
     def on_connect(controller):
         print "Connected"
 
-        # Enable gestures
         controller.enable_gesture(Leap.Gesture.TYPE_CIRCLE)
         controller.enable_gesture(Leap.Gesture.TYPE_KEY_TAP)
         controller.enable_gesture(Leap.Gesture.TYPE_SCREEN_TAP)
@@ -57,7 +53,8 @@ class SampleListener(Leap.Listener):
 
     def on_exit(self, controller):
         time.sleep(1)
-        # Reset arduino when you stop program
+
+        # Reset arduino to initial position when you stop program
         self.a.servo_write(self.PIN3, 0)
         self.a.servo_write(self.PIN5, 0)
         self.a.servo_write(self.PIN6, 0)
@@ -70,10 +67,10 @@ class SampleListener(Leap.Listener):
     def on_frame(self, controller):
         textFile = open("log.txt", "a")
 
-        # we only want to get the position of the hand every so often
+        # we only want to get the position of the hand every few milliseconds
         self.newtime = time.time()
 
-        if self.newtime - self.oldtime > 0.1:  # every 10 ms get a frame
+        if self.newtime - self.oldtime > 0.1:  # every 10 ms we get a frame
             # Get the most recent frame and report some basic information
             frame = controller.frame()
             interaction_box = frame.interaction_box
@@ -145,7 +142,7 @@ class SampleListener(Leap.Listener):
                         finger.id,
                         finger.length,
                         finger.width))
-
+                    # Get the finger angle
                     fingerAngle[i] = math.trunc(hand.palm_normal.angle_to(finger.direction) * Leap.RAD_TO_DEG)
                     i = i + 1
 
@@ -180,6 +177,7 @@ class SampleListener(Leap.Listener):
                                fingerAngle[1],
                                180 - fingerAngle[0]))
 
+            # Write the finger angle to servos
             self.a.servo_write(self.PIN3, fingerAngle[4])
             self.a.servo_write(self.PIN5, fingerAngle[3])
             self.a.servo_write(self.PIN6, fingerAngle[2])
