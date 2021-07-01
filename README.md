@@ -1,6 +1,9 @@
-# Gesture Controlled Robotic Hand
+Gesture Controller Robotic Hand In Action
 
 
 
-https://user-images.githubusercontent.com/65471490/124174944-953f1b80-da72-11eb-9c9d-ee0d2e8b292c.mp4
+
+
+https://user-images.githubusercontent.com/65471490/124175043-b1db5380-da72-11eb-9612-3c225a7cc827.mp4
+
 
