@@ -1,12 +1,16 @@
+# this is the path to the leapmotion sdk, might change depending on how you set up the files
 import sys
-
 sys.path.insert(0, "../lib")
 sys.path.insert(1, "../lib/x64")
 
+#importing the pyduino program that allows us to communicate with the arduino
 from Pyduino import *
+
+# importing some basic math libraries
 import numpy as np
 import math
 
+# importing the leapmotion library
 import Leap, thread, time
 from Leap import CircleGesture, KeyTapGesture, ScreenTapGesture, SwipeGesture
 
@@ -65,6 +69,7 @@ class SampleListener(Leap.Listener):
         print "Exited"
 
     def on_frame(self, controller):
+        # opens up a text file that keeps a log of all the information captured by leapmotion
         textFile = open("log.txt", "a")
 
         # we only want to get the position of the hand every few milliseconds
@@ -74,7 +79,7 @@ class SampleListener(Leap.Listener):
             # Get the most recent frame and report some basic information
             frame = controller.frame()
             interaction_box = frame.interaction_box
-
+            
             fingerAngle = [0, 0, 0, 0, 0]
             i = 0
 
@@ -86,7 +91,7 @@ class SampleListener(Leap.Listener):
                 frame.id, frame.timestamp, len(frame.hands), len(frame.fingers), len(frame.tools),
                 len(frame.gestures())))
 
-            # Get hands
+            # Get hand information
             for hand in frame.hands:
 
                 handType = "Left hand" if hand.is_left else "Right hand"
@@ -116,7 +121,7 @@ class SampleListener(Leap.Listener):
                     normal.roll * Leap.RAD_TO_DEG,
                     direction.yaw * Leap.RAD_TO_DEG))
 
-                # Get arm bone
+                # Get arm bone information
                 arm = hand.arm
                 print "Arm direction: %s, wrist position: %s, elbow position: %s\n" % (
                     arm.direction,
@@ -128,7 +133,7 @@ class SampleListener(Leap.Listener):
                     arm.wrist_position,
                     arm.elbow_position))
 
-                # Get fingers
+                # Get finger information
                 for finger in hand.fingers:
                     print "%s finger, id: %d, length: %fmm, width: %fmm, \n" % (
                         self.finger_names[finger.type],
@@ -146,7 +151,7 @@ class SampleListener(Leap.Listener):
                     fingerAngle[i] = math.trunc(hand.palm_normal.angle_to(finger.direction) * Leap.RAD_TO_DEG)
                     i = i + 1
 
-                    # Get bones
+                    # Get bone information for each finger
                     for b in range(0, 4):
                         bone = finger.bone(b)
                         print "Bone: %s, start: %s, end: %s, direction: %s\n" % (
