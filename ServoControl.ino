@@ -1,6 +1,5 @@
 /*
  * Sketch to control the servo pins of Arduino via serial interface
- *
  */
 
 #include <Servo.h>
