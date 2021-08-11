@@ -14,13 +14,13 @@ int value_to_write; // Holds the value that we want to write
 int wait_for_transmission = 5; // Delay in ms in order to receive the serial data
 
 // create servo object to control a servo
-// a maximum of eight servo objects can be created
 Servo SERVO3; 
 Servo SERVO5;
 Servo SERVO6;
 Servo SERVO9;
 Servo SERVO10;
 
+// assigning servo object to ports on the arduino
 int SERVO3_PIN = 3;
 int SERVO5_PIN = 5;
 int SERVO6_PIN = 6;
@@ -51,7 +51,7 @@ void setup() {
 void servo_write(int pin_number, int servo_value){
     /*
      * Performs a servo write on pin_number with the servo_value
-     * The value must be 0 to 180 (might change depending on servo)
+     * The value must be 0 to 180
      */
      
      if (pin_number==SERVO3_PIN)
