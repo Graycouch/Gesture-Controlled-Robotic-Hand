@@ -1,4 +1,4 @@
-Gesture Controller Robotic Hand In Action
+Gesture Controlled Robotic Hand In Action
 
 
 
